@@ -23,7 +23,7 @@ class AddItem extends Component {
             <form onSubmit={this.handleAddItem}>
                 <input onChange={ ( {target} ) => this.setState({ title: target.value })} type="text" placeholder="Title" value={title}/>
                 <input onChange={ ( {target} ) => this.setState({ details: target.value })} type="text" placeholder="Details" value={details}/>
-                <button className="btn red darken-4">Add Item</button>
+                <button className="btn blue darken-4">Add Item</button>
             </form>
         );
     }

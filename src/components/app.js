@@ -11,11 +11,27 @@ class App extends Component {
             todoData: todo_data
         };
         this.addItem = this.addItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
+        this.toggleComplete = this.toggleComplete.bind(this);
     }
     addItem(item) {
         item.complete = false;
         this.setState({
            todoData: [item, ...this.state.todoData]
+        });
+    }
+    toggleComplete (index) {
+        const tempData = this.state.todoData.slice();
+        tempData[index].complete = !tempData[index].complete;
+        this.setState({
+            todoData: tempData
+        });
+    }
+    deleteItem(index) {
+        const tempData = this.state.todoData.slice();
+        tempData.splice(index, 1);
+        this.setState({
+           todoData: tempData
         });
     }
     render () {
@@ -24,7 +40,7 @@ class App extends Component {
         <div className="container">
             <h1 className="center-align">To Do List</h1>
             <AddItem add={this.addItem}/>
-            <ListContainer list={todoData}/>
+            <ListContainer delete={this.deleteItem} toggleComplete={this.toggleComplete} list={todoData}/>
         </div>
         );
     }
