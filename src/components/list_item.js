@@ -23,11 +23,11 @@ export default props => {
                 {props.item.title}
             </div>
             <div className="col s3 right">
-                <Modal callback={ () => props.delete(props.index)} text={modalMessage} className="btn btn-floating red">
+                <Modal callback={ () => props.delete(props.item._id)} text={modalMessage} className="btn btn-floating red">
                     <i className="material-icons">delete</i>
                 </Modal>
                 {/*<button onClick={() => props.delete(props.index)} className='btn-floating red darken-4'><i className="material-icons">delete</i></button>*/}
-                <button onClick={() => props.complete(props.index)} className={`btn-floating ${complete ? 'yellow darken-1': 'green'}`}><i className="material-icons">{ complete ? 'undo' : 'check'}</i></button>
+                <button onClick={() => props.complete(props.item._id)} className={`btn-floating ${complete ? 'yellow darken-1': 'green'}`}><i className="material-icons">{ complete ? 'undo' : 'check'}</i></button>
             </div>
         </li>
 )

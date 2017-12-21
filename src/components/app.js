@@ -1,47 +1,51 @@
 import 'materialize-css/dist/css/materialize.min.css';
-import todo_data from "../todo_data";
 import React, {Component} from 'react';
+import axios from 'axios';
 import AddItem from './add_item';
 import ListContainer from './list_container';
+
+const BASE_URL = 'http://api.reactprototypes.com';
+const API_KEY = '?key=rslibed408,';
 
 class App extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            todoData: todo_data
+            todoData: []
         };
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.toggleComplete = this.toggleComplete.bind(this);
     }
-    addItem(item) {
-        item.complete = false;
+    componentDidMount () {
+        this.getData();
+    }
+    async getData () {
+        const result = await axios.get(`${BASE_URL}/todos${API_KEY}`);
         this.setState({
-           todoData: [item, ...this.state.todoData]
+           todoData: result.data.todos
         });
     }
-    toggleComplete (index) {
-        const tempData = this.state.todoData.slice();
-        tempData[index].complete = !tempData[index].complete;
-        this.setState({
-            todoData: tempData
-        });
+     async addItem(item) {
+        await axios.post(`${BASE_URL}/todos${API_KEY}`, item);
+        this.getData();
     }
-    deleteItem(index) {
-        const tempData = this.state.todoData.slice();
-        tempData.splice(index, 1);
-        this.setState({
-           todoData: tempData
-        });
+    async toggleComplete (id) {
+        await axios.put(`${BASE_URL}/todos/${id + API_KEY}`);
+        this.getData();
+    }
+    async deleteItem(id) {
+        await axios.delete(`${BASE_URL}/todos/${id + API_KEY}`);
+        this.getData();
     }
     render () {
-        const { todoData } = this.state;
-        return(
-        <div className="container">
-            <h1 className="center-align">To Do List</h1>
-            <AddItem add={this.addItem}/>
-            <ListContainer delete={this.deleteItem} toggleComplete={this.toggleComplete} list={todoData}/>
-        </div>
+        const {todoData} = this.state;
+        return (
+            <div className="container">
+                <h1 className="center-align">To Do List</h1>
+                <AddItem add={this.addItem}/>
+                <ListContainer delete={this.deleteItem} toggleComplete={this.toggleComplete} list={todoData}/>
+            </div>
         );
     }
 }

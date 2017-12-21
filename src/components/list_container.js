@@ -5,7 +5,8 @@ class ListContainer extends Component {
     render () {
         console.log("Data: ", this.props.list);
         const list = this.props.list.map((item,index) => {
-            return <ListItem key={index} index={index} item={item} delete={this.props.delete} complete={this.props.toggleComplete}/>
+            console.log("ITEM: ", item);
+            return <ListItem key={index} item={item} delete={this.props.delete} complete={this.props.toggleComplete}/>
         });
         return(
             <div>
